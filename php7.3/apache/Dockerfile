@@ -4,6 +4,8 @@ RUN apt update && apt install -y gnupg2
 
 RUN echo "deb http://packages.cloud.google.com/apt gcsfuse-stretch main" | tee /etc/apt/sources.list.d/gcsfuse.list && \
 	curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+	
+RUN apt update && apt install -y gcsfuse
 
 # install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
 RUN set -ex; \
@@ -13,7 +15,6 @@ RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		libjpeg-dev \
-		gcsfuse \
 		libmagickwand-dev \
 		libpng-dev \
 		libzip-dev \
