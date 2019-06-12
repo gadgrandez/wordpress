@@ -76,6 +76,9 @@ RUN set -ex; \
 	tar -xzf wordpress.tar.gz -C /usr/src/; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
+# Install gcsfuse
+RUN curl -L -O https://github.com/GoogleCloudPlatform/gcsfuse/releases/download/v0.27.0/gcsfuse_0.27.0_amd64.deb && \
+	dpkg --install gcsfuse_0.27.0_amd64.deb && apt --fix-broken install -y && rm -rf gcsfuse_0.27.0_amd64.deb
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
