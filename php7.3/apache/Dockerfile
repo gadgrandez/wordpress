@@ -1,5 +1,9 @@
 FROM php:7.3-apache
 
+RUN export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s` && \
+	echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list && \
+	curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
 # install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
 RUN set -ex; \
 	\
@@ -8,6 +12,7 @@ RUN set -ex; \
 	apt-get update; \
 	apt-get install -y --no-install-recommends \
 		libjpeg-dev \
+		gcsfuse \
 		libmagickwand-dev \
 		libpng-dev \
 		libzip-dev \
@@ -77,8 +82,8 @@ RUN set -ex; \
 	rm wordpress.tar.gz; \
 	chown -R www-data:www-data /usr/src/wordpress
 # Install gcsfuse
-RUN apt install fuse -y && curl -L -O https://github.com/GoogleCloudPlatform/gcsfuse/releases/download/v0.27.0/gcsfuse_0.27.0_amd64.deb && \
-	dpkg --install gcsfuse_0.27.0_amd64.deb && apt --fix-broken install -y && rm -rf gcsfuse_0.27.0_amd64.deb
+#RUN apt install fuse -y && curl -L -O https://github.com/GoogleCloudPlatform/gcsfuse/releases/download/v0.27.0/gcsfuse_0.27.0_amd64.deb && \
+#	dpkg --install gcsfuse_0.27.0_amd64.deb && apt --fix-broken install -y && rm -rf gcsfuse_0.27.0_amd64.deb
 
 COPY docker-entrypoint.sh /usr/local/bin/
 
