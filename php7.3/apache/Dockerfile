@@ -1,8 +1,8 @@
 FROM php:7.3-apache
 
 RUN export GCSFUSE_REPO=gcsfuse-`lsb_release -c -s` && \
-	echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | sudo tee /etc/apt/sources.list.d/gcsfuse.list && \
-	curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+	echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | tee /etc/apt/sources.list.d/gcsfuse.list && \
+	curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 
 # install the PHP extensions we need (https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions)
 RUN set -ex; \
